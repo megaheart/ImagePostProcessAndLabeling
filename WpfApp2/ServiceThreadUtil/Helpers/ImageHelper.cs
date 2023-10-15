@@ -27,7 +27,7 @@ namespace WpfApp2.ServiceThreadUtil.Helpers
             // Crop the image
             Rectangle cropArea = new Rectangle(offsetX, offsetY, width, height);
             // Resize the image to approximately 20KB JPEG
-            using (MemoryStream resizedImage = CropAndResizeImage(originalImage, cropArea, 20))
+            using (MemoryStream resizedImage = CropAndResizeImage(originalImage, cropArea, 19))
             {
                 FileStream fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write);
                 resizedImage.WriteTo(fs);
@@ -35,6 +35,42 @@ namespace WpfApp2.ServiceThreadUtil.Helpers
             }
             originalImage.Dispose();
             return true;
+        }
+        public static MemoryStream CropAndResizeImage(Image image, Rectangle cropArea, int targetSizeKB)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            const int START_AREA = 102_400;
+
+            Size startSize = ScaleSize(cropArea.Size, Math.Sqrt(START_AREA * 1.0 / cropArea.Size.Width / cropArea.Size.Height));
+
+            int scale = 10;
+
+            do
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.Position = 0;
+                stream.SetLength(0);
+
+                Size size = ScaleSize(startSize, Math.Sqrt(1.0 * scale / 10));
+
+                Bitmap resizedImage = new Bitmap(size.Width, size.Height);
+                using (Graphics graphics = Graphics.FromImage(resizedImage))
+                {
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    graphics.DrawImage(image, new Rectangle(0, 0, size.Width, size.Height), cropArea, GraphicsUnit.Pixel);
+                }
+
+                resizedImage.Save(stream, GetEncoderInfo("image/jpeg"), GetEncoderParameters(80));
+                resizedImage.Dispose();
+                scale--;
+            }
+            while (stream.Length / 1024 > targetSizeKB && scale > 0);
+
+            stream.Position = 0;
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
+
         }
 
         public static Bitmap CropImage(Image originalImage, Rectangle cropArea)
@@ -51,7 +87,7 @@ namespace WpfApp2.ServiceThreadUtil.Helpers
         {
             MemoryStream stream = new MemoryStream();
 
-            const int START_AREA = 102_400;
+            const int START_AREA = 25_600;
 
             Size startSize = ScaleSize(image.Size, Math.Sqrt(START_AREA * 1.0 / image.Size.Width / image.Size.Height));
 
@@ -84,47 +120,10 @@ namespace WpfApp2.ServiceThreadUtil.Helpers
 
         }
 
-        public static MemoryStream CropAndResizeImage(Image image, Rectangle cropArea, int targetSizeKB)
+        public static Size ScaleSize(Size size, double scale)
         {
-            MemoryStream stream = new MemoryStream();
-
-            const int START_AREA = 102_400;
-
-            Size startSize = ScaleSize(cropArea.Size, Math.Sqrt(START_AREA * 1.0 / image.Size.Width / image.Size.Height));
-
-            int scale = 10;
-
-            do
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                stream.Position = 0;
-                stream.SetLength(0);
-
-                Size size = ScaleSize(startSize, 1.0 * scale / 10);
-
-                Bitmap resizedImage = new Bitmap(size.Width, size.Height);
-                using (Graphics graphics = Graphics.FromImage(resizedImage))
-                {
-                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    graphics.DrawImage(image, new Rectangle(0, 0, size.Width, size.Height), cropArea, GraphicsUnit.Pixel);
-                }
-
-                resizedImage.Save(stream, GetEncoderInfo("image/jpeg"), GetEncoderParameters(100));
-                resizedImage.Dispose();
-                scale--;
-            }
-            while (stream.Length / 1024 > targetSizeKB && scale > 0);
-
-            stream.Position = 0;
-            stream.Seek(0, SeekOrigin.Begin);
-            return stream;
-
-        }
-
-        public static Size ScaleSize(Size maxSize, double scale)
-        {
-            int width = (int)Math.Round(maxSize.Width * scale);
-            int height = (int)Math.Round(maxSize.Height * scale);
+            int width = (int)Math.Round(size.Width * scale);
+            int height = (int)Math.Round(size.Height * scale);
             return new Size(width, height);
         }
 
