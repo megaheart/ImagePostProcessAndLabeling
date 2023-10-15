@@ -229,7 +229,7 @@ namespace WpfApp2
         {
             DisableReactiveUI();
 
-            AlertMsg.Foreground = (Brush) Resources["LightYellow2"];
+            AlertMsg.Foreground = (Brush) FindResource("LightYellow2");
             AlertMsg.Text = "Exporting 0%";
 
             ServiceThread.Instance.ExportCsvAndResizedImages(workspace, (progress) =>
@@ -239,7 +239,7 @@ namespace WpfApp2
                     this.Dispatcher.InvokeAsync(() =>
                     {
                         EnableReactiveUI();
-                        AlertMsg.Foreground = (Brush)Resources["LightGreen2"];
+                        AlertMsg.Foreground = (Brush)FindResource("LightGreen2");
                         AlertMsg.Text = "Exported successfully at " + DateTime.Now.ToString("HH:mm dd/MM/yyyy") + ".";
                     });
                 }
