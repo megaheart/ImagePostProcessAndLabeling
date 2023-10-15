@@ -1,0 +1,12 @@
+<Configuration>
+	<MappedFolders>
+		<MappedFolder>
+			<HostFolder>.\bin\Release\net6.0-windows7.0\publish\win-x86</HostFolder>
+			<SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\App</SandboxFolder>
+			<ReadOnly>false</ReadOnly>
+		</MappedFolder>
+	</MappedFolders>
+	<LogonCommand>
+		<Command>explorer.exe C:\Users\WDAGUtilityAccount\Desktop\App\WpfApp2.exe</Command>
+	</LogonCommand>
+</Configuration>

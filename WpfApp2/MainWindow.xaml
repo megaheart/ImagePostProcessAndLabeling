@@ -1,0 +1,300 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        xmlns:m="clr-namespace:WpfApp2.Models"
+        xmlns:ctrl="clr-namespace:WpfApp2.View.CustomizedControls"
+        xmlns:cpn="clr-namespace:WpfApp2.View.Components"
+        WindowState="Maximized" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Padding="0" Background="{StaticResource Color_Background}"
+        WindowStyle="SingleBorderWindow" Width="Auto" Height="Auto"
+        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        Margin="0" x:Name="wnd"
+        mc:Ignorable="d"
+        Title="MainWindow" d:Height="450" d:Width="800">
+    <Window.Resources>
+        <RoutedUICommand x:Key="PreviousImage" Text="PreviousImage" />
+        <RoutedUICommand x:Key="NextImage" Text="NextImage" />
+        <RoutedUICommand x:Key="ExportToCsv" Text="ExportToCsv" />
+        <RoutedUICommand x:Key="ClearCropingRect" Text="ClearCropingRect" />
+        <RoutedUICommand x:Key="SetLabel" Text="SetLabel" />
+        <RoutedUICommand x:Key="OpenWorkspace" Text="OpenWorkspace" />
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource PreviousImage}" 
+                        Executed="PreviousImage" />
+        <CommandBinding Command="{StaticResource NextImage}" 
+                        Executed="NextImage" />
+        <CommandBinding Command="{StaticResource ExportToCsv}" 
+                        Executed="ExportToCsv" />
+        <CommandBinding Command="{StaticResource ClearCropingRect}"
+                        Executed="ClearCropingRect" />
+        <CommandBinding Command="{StaticResource SetLabel}"
+                        Executed="SetLabel" />
+        <CommandBinding Command="{StaticResource OpenWorkspace}"
+                        Executed="OpenWorkspace" />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Key="OemMinus" Modifiers="" Command="{StaticResource PreviousImage}" />
+        <KeyBinding Key="OemPlus" Modifiers="" Command="{StaticResource NextImage}" />
+        <KeyBinding Key="Subtract" Modifiers="" Command="{StaticResource PreviousImage}" />
+        <KeyBinding Key="Add" Modifiers="" Command="{StaticResource NextImage}"/>
+        <KeyBinding Key="Space" Modifiers="Shift" Command="{StaticResource PreviousImage}" />
+        <KeyBinding Key="Space" Modifiers="" Command="{StaticResource NextImage}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{StaticResource ExportToCsv}" />
+        <KeyBinding Key="Delete" Modifiers="" Command="{StaticResource ClearCropingRect}" />
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{StaticResource OpenWorkspace}" />
+        
+        <KeyBinding Key="D1" Command="{StaticResource SetLabel}" CommandParameter="1" />
+        <KeyBinding Key="D2" Command="{StaticResource SetLabel}" CommandParameter="2" />
+        <KeyBinding Key="D3" Command="{StaticResource SetLabel}" CommandParameter="3" />
+        <KeyBinding Key="D4" Command="{StaticResource SetLabel}" CommandParameter="4" />
+        <KeyBinding Key="D5" Command="{StaticResource SetLabel}" CommandParameter="5" />
+        <KeyBinding Key="D6" Command="{StaticResource SetLabel}" CommandParameter="6" />
+        <KeyBinding Key="D7" Command="{StaticResource SetLabel}" CommandParameter="7" />
+        <KeyBinding Key="D8" Command="{StaticResource SetLabel}" CommandParameter="8" />
+        <KeyBinding Key="D9" Command="{StaticResource SetLabel}" CommandParameter="9" />
+        <KeyBinding Key="D0" Command="{StaticResource SetLabel}" CommandParameter="0" />
+
+        <KeyBinding Key="NumPad1" Command="{StaticResource SetLabel}" CommandParameter="1" />
+        <KeyBinding Key="NumPad2" Command="{StaticResource SetLabel}" CommandParameter="2" />
+        <KeyBinding Key="NumPad3" Command="{StaticResource SetLabel}" CommandParameter="3" />
+        <KeyBinding Key="NumPad4" Command="{StaticResource SetLabel}" CommandParameter="4" />
+        <KeyBinding Key="NumPad5" Command="{StaticResource SetLabel}" CommandParameter="5" />
+        <KeyBinding Key="NumPad6" Command="{StaticResource SetLabel}" CommandParameter="6" />
+        <KeyBinding Key="NumPad7" Command="{StaticResource SetLabel}" CommandParameter="7" />
+        <KeyBinding Key="NumPad8" Command="{StaticResource SetLabel}" CommandParameter="8" />
+        <KeyBinding Key="NumPad9" Command="{StaticResource SetLabel}" CommandParameter="9" />
+        <KeyBinding Key="NumPad0" Command="{StaticResource SetLabel}" CommandParameter="0" />
+    </Window.InputBindings>
+    
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" MinHeight="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Background="{StaticResource Color_Sheet}" Margin="10"
+                CornerRadius="4" Grid.RowSpan="2">
+            <DockPanel>
+                <Button DockPanel.Dock="Top" Margin="10" 
+                        Style="{StaticResource JellyButtonStyle}" 
+                        Background="{StaticResource Blue}"
+                        Command="{StaticResource OpenWorkspace}"
+                        IsEnabled="{Binding Path=AllReactiveUIEnabled}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource MaterialIcons}" VerticalAlignment="Center"
+                                   FontSize="18" Text="folder_open" Margin="0,0,5,0"></TextBlock>
+                        <TextBlock FontSize="14" VerticalAlignment="Center">Open Folder</TextBlock>
+                    </StackPanel>
+                </Button>
+                <ListView x:Name="ImageListViewer" Margin="6" SelectionChanged="ImageListViewer_SelectionChanged"
+                          SelectionMode="Single">
+                    <ListView.Template>
+                        <ControlTemplate TargetType="ListView">
+                            <!--<WrapPanel IsItemsHost="True"></WrapPanel>-->
+                            <ScrollViewer>
+                                <VirtualizingStackPanel IsItemsHost="True"></VirtualizingStackPanel>
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ListView.Template>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type m:ImageInfo}">
+                            <Grid DockPanel.Dock="Top" TextBlock.Foreground="{StaticResource Color_Foreground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image x:Name="icon" Source="Resources/App Icons/FileIcons/image-file.png" 
+                                        Height="20" Width="20" HorizontalAlignment="Center"></Image>
+                                <TextBlock Grid.Column="1" Text="{Binding Path=LabelState.ImagePath}"            
+                                           VerticalAlignment="Center" x:Name="txt"></TextBlock>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Path=ProcessState}" Value="Invalid">
+                                    <Setter TargetName="txt" Property="Foreground" Value="{StaticResource LightRed2}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=ProcessState}" Value="Saving">
+                                    <Setter TargetName="txt" Property="Foreground" Value="{StaticResource LightYellow2}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=ProcessState}" Value="Labeled">
+                                    <Setter TargetName="txt" Property="Foreground" Value="{StaticResource LightGreen2}"></Setter>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemsSource>
+                        <x:Array Type="{x:Type m:ImageInfo}">
+                            <m:ImageInfo ProcessState="Invalid">
+                                <m:ImageInfo.LabelState>
+                                    <m:ImageLabelState ImagePath="hello.jpg"></m:ImageLabelState>
+                                </m:ImageInfo.LabelState>
+                            </m:ImageInfo>
+                            <m:ImageInfo ProcessState="Labeled">
+                                <m:ImageInfo.LabelState>
+                                    <m:ImageLabelState ImagePath="concholay.jpg"></m:ImageLabelState>
+                                </m:ImageInfo.LabelState>
+                            </m:ImageInfo>
+                            <m:ImageInfo ProcessState="Unlabeled">
+                                <m:ImageInfo.LabelState>
+                                    <m:ImageLabelState ImagePath="gaialime.jpg"></m:ImageLabelState>
+                                </m:ImageInfo.LabelState>
+                            </m:ImageInfo>
+                            <m:ImageInfo ProcessState="Saving">
+                                <m:ImageInfo.LabelState>
+                                    <m:ImageLabelState ImagePath="hihihi.jpg"></m:ImageLabelState>
+                                </m:ImageInfo.LabelState>
+                            </m:ImageInfo>
+                        </x:Array>
+                    </ListView.ItemsSource>
+                    <ListView.Resources>
+                        <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
+                            <Setter Property="SnapsToDevicePixels" Value="true" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+                            <Setter Property="Padding" Value="0,3"></Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid>
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="3"></Border>
+                                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              HorizontalAlignment="Stretch"/>
+                                        </Grid>
+
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource Color_Button_Hover_Background}"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource Color_Button_Selected_Background}"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
+                </ListView>
+            </DockPanel>
+        </Border>
+        <Border Background="{StaticResource Color_Sheet}" Margin="10"
+                Padding="10" x:Name="Toolbar1"
+                CornerRadius="4" Grid.Column="1">
+            <DockPanel>
+                <TextBlock x:Name="AlertMsg" Foreground="AliceBlue" DockPanel.Dock="Top">
+                    Hello World!
+                </TextBlock>
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button Width="100" Command="{StaticResource ExportToCsv}" 
+                                Style="{StaticResource JellyButtonStyle}" 
+                                Background="{StaticResource DarkGreen}"
+                                IsEnabled="{Binding Path=AllReactiveUIEnabled}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="{StaticResource MaterialIcons}" VerticalAlignment="Center"
+                                        FontSize="18" Text="publish" Margin="0,0,5,0"></TextBlock>
+                                <TextBlock FontSize="14" VerticalAlignment="Center">Export</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button Width="100" Command="{StaticResource PreviousImage}"
+                                Style="{StaticResource JellyButtonStyle}" 
+                                Background="{StaticResource DarkGrey}"
+                                IsEnabled="{Binding Path=AllReactiveUIEnabled}">         
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock FontFamily="{StaticResource MaterialIcons}" VerticalAlignment="Center"
+                        FontSize="18" Text="navigate_before" Margin="0,0,5,0"></TextBlock>
+                                <TextBlock FontSize="14" VerticalAlignment="Center">Previous</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Width="100" Margin="15,0,0,0" Command="{StaticResource NextImage}"
+                                Style="{StaticResource JellyButtonStyle}" 
+                                Background="{StaticResource DarkGrey}"
+                                IsEnabled="{Binding Path=AllReactiveUIEnabled}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="{StaticResource MaterialIcons}" VerticalAlignment="Center"
+                        FontSize="18" Text="navigate_next" Margin="0,0,5,0"></TextBlock>
+                                <TextBlock FontSize="14" VerticalAlignment="Center" Width="50px">Next</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </DockPanel>
+        </Border>
+        <Border Background="{StaticResource Color_Sheet}" Margin="10"
+                CornerRadius="4" Grid.Column="1" Grid.Row="2"
+                x:Name="Toolbar2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ctrl:AlignableWrapPanel x:Name="CheckLabelGroup"
+                                         Grid.ColumnSpan="2" 
+                                         HorizontalAlignment="Center" 
+                                         Margin="15"
+                                         HorizontalContentAlignment="Center">
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="1"
+                              Click="CheckBox_Click">Hồ Gươm</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="2"
+                              Click="CheckBox_Click">Hồ Tây</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="3"
+                              Click="CheckBox_Click">Tháp Rùa</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="4"
+                              Click="CheckBox_Click">Cầu Thê Húc</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="5"
+                              Click="CheckBox_Click">Bưu Điện</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="6"
+                              Click="CheckBox_Click">Vườn Hoa</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="7"
+                              Click="CheckBox_Click">Chùa Trấn Quốc</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="8"
+                              Click="CheckBox_Click">Đền Quán Thánh</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="9"
+                              Click="CheckBox_Click">Khách Sạn</CheckBox>
+                    <CheckBox Margin="6" FontSize="14" Command="{StaticResource SetLabel}" CommandParameter="0"
+                              Click="CheckBox_Click">Công Viên Nước</CheckBox>
+                </ctrl:AlignableWrapPanel>
+
+                <cpn:ImageCropingPanel x:Name="ImgCropingPanel" Grid.Row="1" CropingRectangleChanged="ImgCropingPanel_CropingRectangleChanged"></cpn:ImageCropingPanel>
+
+                <DockPanel Grid.Row="1" Grid.Column="1" >
+                    <StackPanel DockPanel.Dock="Top">
+                        <Button Width="100" Command="{StaticResource ClearCropingRect}"
+                                Style="{StaticResource JellyButtonStyle}" 
+                                Background="{StaticResource DarkGrey}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="0,15,0,0"
+                                IsEnabled="{Binding Path=AllReactiveUIEnabled}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock FontFamily="{StaticResource MaterialIcons}" VerticalAlignment="Center"
+                                            FontSize="18" Text="crop_free" Margin="0,0,5,0"></TextBlock>
+                                <TextBlock FontSize="14" VerticalAlignment="Center">Clear</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <!--<Image x:Name="ImageAfterCompress"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="15">
+                    </Image>-->
+                </DockPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

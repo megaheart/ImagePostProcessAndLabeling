@@ -1,0 +1,128 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\MaterialIcons-Regular.ttf" />
+    <None Remove="Fonts\MaterialIconsOutlined-Regular.ttf" />
+    <None Remove="Fonts\MaterialIconsRound-Regular.ttf" />
+    <None Remove="Fonts\MaterialIconsTwoTone-Regular.ttf" />
+    <None Remove="Resources\App Icons\FileIcons\docs.png" />
+    <None Remove="Resources\App Icons\FileIcons\file.png" />
+    <None Remove="Resources\App Icons\FileIcons\folder-invoices.png" />
+    <None Remove="Resources\App Icons\FileIcons\google-sheets.png" />
+    <None Remove="Resources\App Icons\FileIcons\google-slides.png" />
+    <None Remove="Resources\App Icons\FileIcons\image-file.png" />
+    <None Remove="Resources\App Icons\FileIcons\pdf-2.png" />
+    <None Remove="Resources\App Icons\FileIcons\rtf-document.png" />
+    <None Remove="Resources\App Icons\FileIcons\shortcut.png" />
+    <None Remove="Resources\App Icons\MainWindow\application-window.png" />
+    <None Remove="Resources\App Icons\MainWindow\overtime.png" />
+    <None Remove="Resources\App Icons\MainWindow\picture.png" />
+    <None Remove="Resources\App Icons\MainWindow\planner.png" />
+    <None Remove="Resources\App Icons\MainWindow\send-file.png" />
+    <None Remove="Resources\App Icons\MainWindow\setting.png" />
+    <None Remove="Resources\App Icons\MainWindow\shortcuts.png" />
+    <None Remove="Resources\App Icons\MainWindow\tab.png" />
+    <None Remove="Resources\App Icons\MainWindow\tasks.png" />
+    <None Remove="Resources\App Icons\MessageBox\box-important.png" />
+    <None Remove="Resources\App Icons\MessageBox\cancel.png" />
+    <None Remove="Resources\App Icons\MessageBox\medium-risk.png" />
+    <None Remove="Resources\App Icons\MessageBox\speech-bubble.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.17" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\MaterialIcons-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\MaterialIconsOutlined-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\MaterialIconsRound-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\MaterialIconsTwoTone-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\application-window.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\overtime.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\picture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\planner.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\send-file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\setting.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\shortcuts.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\tab.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MainWindow\tasks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\App Icons\FileIcons\docs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\folder-invoices.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\google-sheets.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\google-slides.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\image-file.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\pdf-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\rtf-document.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\FileIcons\shortcut.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MessageBox\box-important.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MessageBox\cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MessageBox\medium-risk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\App Icons\MessageBox\speech-bubble.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
