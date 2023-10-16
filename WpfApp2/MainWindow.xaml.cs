@@ -344,7 +344,7 @@ namespace WpfApp2
             if(imageLabelState.CutOffsetX >= 0 && imageLabelState.CutOffsetY >= 0 && imageLabelState.CutWidth > 0 && imageLabelState.CutHeight > 0)
             {
                 var labelCount = imageLabelState.Labels.Count(x => x.Value);
-                if(labelCount > 0)
+                if(labelCount > 1)
                 {
                     imageLabelState.StateVersion++;
 
